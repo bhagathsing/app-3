@@ -1,0 +1,51 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Add User</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group block">
+      <div class="row m-t-10">
+          <h5 class="col-xs-12 ">Users</h5>
+          <div class="col-md-5 col-xs-12 ">
+              <ss-multiselect-dropdown (onLazyLoad)="onSearch($event)" [settings]="mySettings" [name]="'userName'" [masterData]="configAllEmpData?.details" [disabled]="gridRowData" [options]="trSubmitToList" [texts]="myTexts" [(ngModel)]="trSubmitToListModel" (ngModelChange)="getTimeReport2($event)"></ss-multiselect-dropdown>
+          </div>
+          <div class="col-md-7 col-xs-12">
+              <div class=" zeropad">
+                  <div class="div_names">
+                      <div *ngFor="let reviwer of trSubmitToListModel; let i = index;">
+                          <a (click)="removeSlUsers(i,trSubmitToListModel)"><i *ngIf="!gridRowData" class="fa fa-close" aria-hidden="true"></i></a>
+                          {{ reviwer.userName }}</div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="form-group block">
+        <div class="row m-t-10">
+            <h5 class="col-xs-12 ">Time period</h5>
+            <div class="col-md-5 col-xs-12 ">
+              <div class="block position-r" dropdown [isOpen]="status.isopen" (isOpenChange)="changeDatePick($event)" >
+                    <!--<ss-multiselect-dropdown (onLazyLoad)="onSearchPeriod($event)" [settings]="periodSettings" [name]="'timePeriodName'" [masterData]="periodObj?.timePeriodMasterBean" [options]="clonePeriodData" [texts]="myTexts" [(ngModel)]="periods" (ngModelChange)="onPriodChange($event)"></ss-multiselect-dropdown>-->
+              <input type="text" id="stEndDate" [(ngModel)]="periods"  autocomplete="off" (focus)="onFocusDate($event)" class="form-control" placeholder="Daterangepicker"/>
+              <ul *dropdownMenu class="dropdown-menu padding-0 radios-0">
+                <li (click)="stopClosing($event)">
+                  <app-date-pick [currentDateObj]="datePickObj" [modalValue]="currentDate" [dateRange]="dateRange" [dateObj]="periodObj.timePeriodMasterBean" [isOpen]="isDatePickerOpen" (onChangeDate)="changeDate($event)"></app-date-pick>
+                </li>
+              </ul>
+
+                <!-- <select class="form-control" [(ngModel)]="periods">
+                    <option *ngFor="let p of periodObj?.timePeriodMasterBean" [value]="p.timePeriodId" [selected]="periods == p.timePeriodId">{{p.timePeriodName}} {{periods}}</option>
+                </select> -->
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Close</button>
+  <button type="button" class="btn btn-success" [disabled]="trSubmitToListModel.length == 0 || !isDateValid" (click)="addUser()">Assign</button>
+</div>
+
+<div [ngBusy]="busy"></div>

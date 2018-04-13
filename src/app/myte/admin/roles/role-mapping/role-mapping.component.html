@@ -1,0 +1,101 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+<div class="block">
+  <form class="form-horizontal" [formGroup]="roleMapForm" (ngSubmit)="onSubmit()" #mapRoleForm="ngForm" novalidate>
+    <div class="panel-body" id="report_id">
+      <div class="block">
+        <div class="level-1">
+          <div class="form-group col-sm-10">
+            <label class="col-sm-6 control-label">Role:</label>
+            <div class="col-sm-6" [style.paddingTop.px]="7">
+              ChargeCodeSponsor
+            </div>
+          </div>
+          <div class="form-group col-sm-10"   [ngClass]="{'has-error':formErrors.sponsor && mapRoleForm.submitted}">
+            <label for="sponsor" class="col-sm-6 control-label">Employee: <span class="error-star">*</span></label>
+            <div class="col-sm-6 emps-all">
+              <ng-select [allowClear]="true" id="sponsor" formControlName="sponsor"
+                         [active]="selectedChargeCodes"
+                         [items]="configAllEmpData?.details"
+                         (selected)="selected($event)"
+                         (removed)="removed($event)"
+                         [textField]="'empName'"
+                         [idField]="'userId'"
+                         placeholder="-- Select --">
+              </ng-select>
+              <span class="help-block" *ngIf="formErrors.sponsor && mapRoleForm.submitted">
+                  {{ formErrors.sponsor }}
+                </span>
+            </div>
+          </div>
+
+
+          <div class="form-group col-sm-10" *ngIf="selectedFields" [ngClass]="{'has-error':formErrors.region && mapRoleForm.submitted}">
+            <label for="region" class="col-sm-6 control-label">Region: <span class="error-star">*</span></label>
+            <div class="col-sm-6">
+              <select class="form-control" id="region" formControlName="region">
+                <option *ngFor="let reg of regions" [value]="reg.region_id">{{reg.region_name}}</option>
+              </select>
+              <span class="help-block" *ngIf="formErrors.region && mapRoleForm.submitted">
+                    {{ formErrors.region }}
+                  </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-10" *ngIf="selectedFields" [ngClass]="{'has-error':formErrors.divisions && mapRoleForm.submitted}">
+            <label for="divisions" class="col-sm-6 control-label">Division: <span class="error-star">*</span></label>
+            <div class="col-sm-6">
+              <select class="form-control" id="divisions" formControlName="divisions">
+                <option *ngFor="let divi of divisionsData" [value]="divi.division_id">{{divi.division_name}}</option>
+              </select>
+              <span class="help-block" *ngIf="formErrors.divisions && mapRoleForm.submitted">
+                    {{ formErrors.divisions }}
+                  </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-10" *ngIf="selectedFields" [ngClass]="{'has-error':formErrors.function_group && mapRoleForm.submitted}">
+            <label for="function_group" class="col-sm-6 control-label">Function Group: <span class="error-star">*</span></label>
+            <div class="col-sm-6">
+              <select class="form-control" id="function_group" formControlName="function_group">
+                <option *ngFor="let func of functionGroups" [value]="func.function_grp_id">{{func.function_grp_name}}</option>
+              </select>
+              <span class="help-block" *ngIf="formErrors.function_group && mapRoleForm.submitted">
+                  {{ formErrors.function_group }}
+                </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-10" *ngIf="selectedFields" [ngClass]="{'has-error':formErrors.sub_function && mapRoleForm.submitted}">
+            <label for="sub_function" class="col-sm-6 control-label">Sub Function: <span class="error-star">*</span></label>
+            <div class="col-sm-6">
+              <select class="form-control" id="sub_function" formControlName="sub_function">
+                <option *ngFor="let subf of subFunctionData" [value]="subf.sub_function_grp_id">{{subf.sub_function_grp_name}}</option>
+              </select>
+              <span class="help-block" *ngIf="formErrors.sub_function && mapRoleForm.submitted">
+                  {{ formErrors.sub_function }}
+                </span>
+            </div>
+          </div>
+        </div>
+    </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-sm-4 txt-align-l">
+            <span class="error-star">*</span> mandatory
+          </div>
+          <div class="col-sm-6">
+                <span class="pull-right" style="margin-right:30px">
+                  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+                  <button type="submit" class="btn btn-success">Save</button>
+                </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+

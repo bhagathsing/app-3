@@ -1,0 +1,59 @@
+<div class="col-sm-12">
+  <!-- <div class="block">
+      <h5 class="userTimereport"><strong>Charge Code Details</strong></h5>
+  </div> -->
+  <!--<ng-container *ngIf="userData.employeeRoleName === 'ChargeCodeOwner' && gridData && gridData?.details.length > 0">-->
+  <!--<div class="block" [style.paddingTop.px]="45">-->
+  <!--<ul class="list-block list-block-col">-->
+  <!--<li class="col-xs-6"><strong>Owner: </strong> <span class="label label-primary">{{gridData.details[0].charge_code_owner}}</span></li>-->
+  <!--<li class="col-xs-6 txt-align-r"><strong>Sponsor : </strong> <span class="label label-primary">{{gridData.details[0].sponsor}}</span></li>-->
+  <!--</ul>-->
+  <!--</div>-->
+  <!--</ng-container>-->
+  <div class="block pull-right" style="margin-bottom: -34px; position:relative; z-index: 2" [ngClass]="{'btn-bar':userData.employeeRoleName === 'ChargeCodeOwner'}">
+    <!-- <div class="col-xs-6">
+
+      <span class="userTimereport"><strong>Role</strong></span>
+    </div> -->
+    <div class="forRecord">
+      <button class="btn btn-default btn-padd" type="button" (click)="refreshData()"> <i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
+      <button class="btn btn-success btn-padd" type="button" (click)="addRole()"> <i class="fa fa-user-plus" aria-hidden="true"></i> Add Sponsor</button>
+    </div>
+  </div>
+
+  <div class="block grid-table1 {{(userData.employeeRoleName === 'ChargeCodeAdmin') ? 'owner-block' : ''}}">
+    <table class="table table-bordered table-inverse table-time" style="margin:0" id="tableGrid_123">
+      <thead>
+      <tr style="color:white; background: #005c97;">
+        <th width="{{header.width}}" height="{{headerRowHeight}}" *ngFor="let header of gridHeaders">{{header.name}}
+        </th>
+        <th width="120" height="{{headerRowHeight}}">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--<tr *ngFor="let rowData of gridData?.details | groupByValue:'charge_code'; let ind = index">-->
+      <tr *ngFor="let rowData of gridData?.details; let ind = index">
+        <td *ngFor="let h of gridHeaders" height="{{bodyRowHeight}}" width="{{h.width}}">
+          <span>{{rowData[h.field]}}</span>
+        </td>
+        <td width="60" height="{{bodyRowHeight}}">
+          <button type="button" class="btn btn-default btn-padd" (click)="addRole(rowData)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<confirm
+  title="{{confirmPopupData.title}}"
+  message="{{confirmPopupData.message}}"
+  confirmText="{{confirmPopupData.confirmText}}"
+  cancelText="{{confirmPopupData.cancelText}}"
+  type="{{confirmPopupData.type}}"
+  isCheckBox="{{confirmPopupData.isCheckBox}}"
+  disclaimerText="{{confirmPopupData.disclaimerText}}"
+  alertClass ="success-alert"
+>
+</confirm>
+
+<div [ngBusy]="busy"></div>

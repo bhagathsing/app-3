@@ -1,0 +1,73 @@
+<div class="padding-t-30">
+<div class="col-sm-12 section-block">
+
+  <div class="col-md-6" style="padding-top: 15px;">
+    <h4 style="margin-bottom: 20px;">Contact us</h4>
+    <div class="">
+      <form class="form-horizontal" [formGroup]="contactUsForm" (ngSubmit)="onSubmit()" #contactForm="ngForm" novalidate>
+        <fieldset>
+          <!-- Name input-->
+          <div class="form-group" [ngClass]="{'has-error':formErrors.uname && contactForm.submitted}">
+            <label class="col-md-3" for="uname">Name</label>
+            <div class="col-md-9">
+              <input id="uname" name="uname" type="text" placeholder="Your name" class="form-control" formControlName="uname">
+              <span class="help-block" *ngIf="formErrors.uname && contactForm.submitted">
+                {{ formErrors.uname }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Email input-->
+          <div class="form-group" [ngClass]="{'has-error':formErrors.uemailid && contactForm.submitted}">
+            <label class="col-md-3" for="uemailid">E-mail</label>
+            <div class="col-md-9">
+              <input id="uemailid" name="uemailid" type="text" placeholder="Your email" class="form-control" formControlName="uemailid">
+              <span class="help-block" *ngIf="formErrors.uemailid && contactForm.submitted">
+                {{ formErrors.uemailid }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Message body -->
+          <div class="form-group" [ngClass]="{'has-error':formErrors.message && contactForm.submitted}">
+            <label class="col-md-3" for="message">Message</label>
+            <div class="col-md-9">
+              <textarea class="form-control" id="message" name="message" formControlName="message" placeholder="Please enter your message here..." rows="5"></textarea>
+              <span class="help-block" *ngIf="formErrors.message && contactForm.submitted">
+                {{ formErrors.message }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3">Attachment</label>
+            <div class="col-md-9">
+            <span class="control-fileupload">
+                <label for="file1" class="text-left">{{fileLableText}}</label>
+                <input type="file" id="file1" (change)="onChangeFile($event)" formControlName="attachment">
+              </span>
+            </div>
+          </div>
+
+          <!-- Form actions -->
+          <div class="form-group">
+            <div class="col-md-12 text-right">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<confirm
+  title="{{confirmPopupData.title}}"
+  message="{{confirmPopupData.message}}"
+  confirmText="{{confirmPopupData.confirmText}}"
+  cancelText="{{confirmPopupData.cancelText}}"
+  type="{{confirmPopupData.type}}"
+  isCheckBox="{{confirmPopupData.isCheckBox}}"
+  disclaimerText="{{confirmPopupData.disclaimerText}}"
+  alertClass ="success-alert"
+>
+</confirm>

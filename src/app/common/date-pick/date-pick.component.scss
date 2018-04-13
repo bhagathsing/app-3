@@ -1,0 +1,35 @@
+.date-pick{
+    min-width: 310px;
+    .col-xs-6{
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+    .btn{
+        width: 40px;
+        text-align: center;
+    }
+    .year-block{
+        text-align: center;
+        line-height: 35px;
+    }
+    .date-pick-block{
+        padding: 5px;
+    }
+    .padding-right-15{
+        padding-right: 15px;
+    }
+    .date-col{
+        .btn{
+            margin-right: 3px;
+            margin-bottom: 3px;
+        }
+    }
+    .date-lable{
+        padding: 8px 0;
+    }
+    .left-arrow,.right-arrow{
+        width: 30px;
+        text-align: center;
+        cursor: pointer;
+    }
+}

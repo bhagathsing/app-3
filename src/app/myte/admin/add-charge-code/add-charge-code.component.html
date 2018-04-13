@@ -1,0 +1,250 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="block form-block-1">
+    <form class="form-horizontal" [formGroup]="addAssignment" (ngSubmit)="onSubmit()" #assignMent="ngForm" novalidate>
+      <div class="block">
+        <div class="block">
+          <div class="level-1">
+            <div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.region && assignMent.submitted}">
+                <label for="region" class="col-sm-6 control-label">Region: <span class="error-star">*</span></label>
+                <div class="col-sm-6">
+                  <select class="form-control" id="region" formControlName="region">
+                      <option *ngFor="let reg of regions" [value]="reg.region_id" [selected]="region == reg.region_id">{{reg.region_name}}</option>
+                  </select>
+                  <span class="help-block" *ngIf="formErrors.region && assignMent.submitted">
+                    {{ formErrors.region }}
+                  </span>
+                </div>
+              </div>
+              <div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.divisions && assignMent.submitted}">
+                <label for="divisions" class="col-sm-6 control-label">Division: <span class="error-star">*</span></label>
+                <div class="col-sm-6">
+                  <select class="form-control" id="divisions" formControlName="divisions">
+                    <option *ngFor="let divi of divisionsData" [value]="divi.division_id">{{divi.division_name}}</option>
+                  </select>
+                  <span class="help-block" *ngIf="formErrors.divisions && assignMent.submitted">
+                    {{ formErrors.divisions }}
+                  </span>
+                </div>
+              </div>
+            <div class="form-group col-sm-6" [ngClass]="{'has-error':formErrors.function_group && assignMent.submitted}">
+              <label for="function_group" class="col-sm-6 control-label">Function Group: <span class="error-star">*</span></label>
+              <div class="col-sm-6">
+                <select class="form-control" id="function_group" formControlName="function_group">
+                  <option *ngFor="let func of functionGroups" [value]="func.function_grp_id">{{func.function_grp_name}}</option>
+                </select>
+                <span class="help-block" *ngIf="formErrors.function_group && assignMent.submitted">
+                  {{ formErrors.function_group }}
+                </span>
+              </div>
+            </div>
+            <div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.sub_function && assignMent.submitted}">
+              <label for="sub_function" class="col-sm-6 control-label">Sub Function: <span class="error-star">*</span></label>
+              <div class="col-sm-6">
+                <select class="form-control" id="sub_function" formControlName="sub_function">
+                  <option *ngFor="let subf of subFunctionData" [value]="subf.sub_function_grp_id">{{subf.sub_function_grp_name}}</option>
+                </select>
+                <span class="help-block" *ngIf="formErrors.sub_function && assignMent.submitted">
+                  {{ formErrors.sub_function }}
+                </span>
+              </div>
+            </div>
+            </div>
+          <div class="block form-devider">
+             <hr>
+           </div>
+          <div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.charge_code_type && assignMent.submitted}">
+            <label for="charge_code_type" class="col-sm-6 control-label">Charge Code Type: <span class="error-star">*</span></label>
+            <div class="col-sm-6">
+              <select class="form-control" id="charge_code_type" formControlName="charge_code_type">
+                <option *ngFor="let chargeCt of chargeCodeTypeData" [value]="chargeCt.charge_code_type">{{chargeCt.charge_code_type ? chargeCt.charge_code_type : '-- Select Charge Code Type --'}}</option>
+              </select>
+              <span class="help-block" *ngIf="formErrors.charge_code_type && assignMent.submitted">
+                {{ formErrors.charge_code_type }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.charge_code_type && assignMent.submitted}">
+            <label for="parent_charge_code" class="col-sm-6 control-label">Parent Charge Code: <span class="error-star">*</span></label>
+            <div class="col-sm-6">
+              <select class="form-control" id="parent_charge_code" formControlName="charge_code_parent">
+                <option *ngFor="let pChargeCode of parentChargeCodeList" [value]="pChargeCode">{{pChargeCode}}</option>
+              </select>
+              <span class="help-block" *ngIf="formErrors.charge_code_parent && assignMent.submitted">
+                {{ formErrors.charge_code_parent }}
+              </span>
+            </div>
+          </div>
+          <!--<div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.charge_code_type && assignMent.submitted}">-->
+            <!--<label for="parent_charge_code_desc" class="col-sm-6 control-label">Parent Charge Code Description:</label>-->
+            <!--<div class="col-sm-6">-->
+              <!--<input type="text" class="form-control" id="parent_charge_code_desc" formControlName="charge_code_parent_desc">-->
+              <!--<span class="help-block" *ngIf="formErrors.charge_code_parent_desc && assignMent.submitted">-->
+                <!--{{ formErrors.charge_code_parent_desc }}-->
+              <!--</span>-->
+            <!--</div>-->
+          <!--</div>-->
+
+          <div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.full_year && assignMent.submitted}">
+              <label for="full_year" class="col-sm-6 control-label">Year: <span class="error-star">*</span></label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="full_year" (keydown)="stopString($event)" formControlName="full_year" maxlength="4">
+                <span class="help-block" *ngIf="formErrors.full_year && assignMent.submitted">
+                  {{ formErrors.full_year }}
+                </span>
+              </div>
+            </div>
+
+          <div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.charge_code_description && assignMent.submitted}">
+            <label for="charge_code_description" class="col-sm-6 control-label">Charge Code Description: <span class="error-star">*</span></label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="charge_code_description" formControlName="charge_code_description">
+              <span class="help-block" *ngIf="formErrors.charge_code_description && assignMent.submitted">
+                {{ formErrors.charge_code_description }}
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group col-sm-6" [ngClass]="{'has-error':formErrors.sponsor && assignMent.submitted}">
+              <label for="sponsor" class="col-sm-6 control-label">Sponsor: <span class="error-star">*</span></label>
+              <div class="col-sm-6">
+                <select class="form-control" id="sponsor" formControlName="sponsor">
+                  <option *ngFor="let spons of sponsorsList?.details" [value]="spons.sponsorlist_empId" [selected]="sponsor == spons.sponsorlist_empId">{{spons.sponsorlist_empId}} {{spons.sponsorlist_empId ? '-': ''}} {{spons.sponsorlist_empName}}</option>
+                </select>
+
+                <!--<input type="text" class="form-control" id="sponsor" formControlName="sponsor"-->
+                <!--[typeahead]="dataSource"-->
+                <!--(typeaheadOnSelect)="typeaheadOnSelect($event)"-->
+                <!--[typeaheadOptionsLimit]="50"-->
+                <!--[typeaheadScrollable]="true"-->
+                <!--[typeaheadOptionsInScrollableView]="10"-->
+                <!--typeaheadOptionField="empName"-->
+                <!--autocomplete="off"-->
+                <!--&gt;-->
+                <span class="help-block" *ngIf="formErrors.sponsor && assignMent.submitted">
+                  {{ formErrors.sponsor }}
+                </span>
+              </div>
+            </div>
+          <div class="form-group col-sm-6" [ngClass]="{'has-error':formErrors.charge_code_owner && assignMent.submitted}">
+            <label for="charge_code_owner" class="col-sm-6 control-label">Charge Code Owner: </label>
+            <div class="col-sm-6">
+              <!-- <input type="text" class="form-control" id="charge_code_owner" formControlName="charge_code_owner"> -->
+              <ss-multiselect-dropdown id="charge_code_owner" (onLazyLoad)="onSearch($event, 'notifyReviewNames')" [settings]="mySettings" [name]="'empName'" [masterData]="configAllEmpData?.details" [disabled]="isChargeCodeTypeRoot" [options]="trSubmitToList" [texts]="myTexts" formControlName="charge_code_owner" (ngModelChange)="getTimeReport2($event)" [selectedName]="'userName'"></ss-multiselect-dropdown>
+              <!--<ng2-multiselect id="charge_code_owner"-->
+                    <!--[data]="configAllEmpData?.details"-->
+                    <!--[(ngModel)]="selectedItems"-->
+                    <!--[settings]="settings"-->
+                    <!--(onSelect)="onItemSelect($event)"-->
+                    <!--(onDeSelect)="OnItemDeSelect($event)"-->
+                    <!--(onSelectAll)="onSelectAll($event)"-->
+                    <!--(onDeSelectAll)="onDeSelectAll($event)" formControlName="charge_code_owner">-->
+              <!--</ng2-multiselect>-->
+              <span class="help-block" *ngIf="formErrors.charge_code_owner && assignMent.submitted">
+                {{ formErrors.charge_code_owner }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-6" [ngClass]="{'has-error':formErrors.stEndDate && assignMent.submitted}">
+            <label for="stEndDate" class="col-sm-6 control-label">Valid From and To Date: <span class="error-star">*</span></label>
+            <div class="col-sm-6" dropdown [isOpen]="status.isopen" (isOpenChange)="changeDatePick($event)" >
+                <!-- <input type="text" id="stEndDate" autocomplete="off" class="form-control" placeholder="Daterangepicker" formControlName="stEndDate" bsDaterangepicker /> -->
+                <input type="text" id="stEndDate" autocomplete="off" (focus)="onFocusDate($event)" class="form-control" placeholder="Daterangepicker" formControlName="stEndDate"/>
+                <ul *dropdownMenu class="dropdown-menu padding-0 radios-0 dropdown-menu-right">
+                    <li (click)="stopClosing($event)">
+                        <app-date-pick [currentDateObj]="datePickObj" [dateObj]="datePickObjAll.timePeriodMasterBean" [isOpen]="isDatePickerOpen" (onChangeDate)="changeDate($event)"></app-date-pick>
+                    </li>
+                  </ul>
+              <span class="help-block" *ngIf="formErrors.stEndDate && assignMent.submitted">
+                {{ formErrors.stEndDate }}
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group col-sm-6">
+              <label for="chargeableHour" class="col-sm-6 control-label">Chargeable Hours: <em class="option-lable">(Optional)</em></label>
+              <div class="col-sm-6">
+                  <input type="text" id="chargeableHour" class="form-control" (keydown)="stopString($event)" formControlName="chargeableHour" />
+                <!--<span class="help-block" *ngIf="formErrors.chargeableHour && assignMent.submitted">-->
+                  <!--{{ formErrors.chargeableHour }}-->
+                <!--</span>-->
+              </div>
+          </div>
+          <div class="form-group col-sm-6"   [ngClass]="{'has-error':(formErrors.charge_code && assignMent.submitted) || isDuplicateCharCode || isSelectedChargeCode}">
+            <label for="charge_code" class="col-sm-6 control-label">Charge Code: <span class="error-star">*</span></label>
+            <div class="col-sm-6">
+              <div class="form-control m-b-10" disabled>
+                <span class="none-edit">{{chargeCodeStringModel}}</span><input type="hidden" class="form-control" id="charge_code" formControlName="charge_code" autocomplete="off">
+                <!--<button class="btn btn-default btn-gen" type="button" (click)="generateChargeCode()" tooltip="Click to Generate Chargecode" placement="top" container="body">-->
+                  <!--<i class="fa fa-refresh" aria-hidden="true"></i>-->
+                <!--</button>-->
+              </div>
+              <ng-container *ngIf="!editData">
+              <button class="btn btn-success" type="button" (click)="generateChargeCode()" tooltip="Click to Generate Chargecode" placement="left" container="body">Generate</button>
+                <span class="generate-lable" *ngIf="isGenerate" [ngClass]="{'generate-success':isGenerate, 'generate-danger': generateTxt === 'Failed'}">
+                  {{generateTxt}}
+                </span>
+              </ng-container>
+              <span class="help-block" *ngIf="(formErrors.charge_code && assignMent.submitted) || isSelectedChargeCode">
+                {{ formErrors.charge_code }}
+              </span>
+              <span class="help-block" *ngIf="isDuplicateCharCode">
+                Duplicate charge code not allowed
+              </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-6" [ngClass]="{'has-error':formErrors.status && assignMent.submitted}">
+            <label for="inlineRadios_20" class="col-sm-6 control-label">Status: <span class="error-star">*</span></label>
+            <div class="col-sm-6">
+              <div class="radio radio-primary radio-inline m-r-10" *ngFor="let states of statusBtn; let ind = index" >
+                <input type="radio" id="inlineRadios_2{{ind}}" formControlName="status" [value]="states.value" name="status">
+                <label for="inlineRadios_2{{ind}}"> {{states.name}}</label>
+              </div>
+              <span class="help-block" *ngIf="formErrors.status && assignMent.submitted">
+                  {{ formErrors.status }}
+                </span>
+            </div>
+          </div>
+          <!-- <div class="form-group col-sm-6" [ngClass]="{'has-error':formErrors.charge_code_owner && assignMent.submitted}">
+            <label for="owner" class="col-sm-6 control-label">End Date:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" bsDatepicker formControlName="eDate">
+              <span class="help-block" *ngIf="formErrors.charge_code_owner && assignMent.submitted">
+                {{ formErrors.charge_code_owner }}
+              </span>
+            </div>
+          </div> -->
+
+          <!-- <div class="form-group col-sm-6" [ngClass]="{'has-error':formErrors.charge_code_description && assignMent.submitted}">
+            <label for="charge_code_description" class="col-sm-6 control-label">Charge Code Description:</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="charge_code_description" formControlName="charge_code_description">
+              <span class="help-block" *ngIf="formErrors.charge_code_description && assignMent.submitted">
+                {{ formErrors.charge_code_description }}
+              </span>
+            </div>
+          </div> -->
+        </div>
+          <div class="modal-footer">
+            <div class="col-sm-6 txt-align-l">
+              <span class="error-star">*</span> mandatory
+            </div>
+            <div class="col-sm-6">
+              <span class="pull-right" style="margin-right:15px">
+                <button type="button" class="btn btn-default" (click)="backToChargeCode()">Cancel</button>
+                <button type="submit" class="btn btn-success">Save</button>
+              </span>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+<div [ngBusy]="busy"></div>
+ 

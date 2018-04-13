@@ -1,0 +1,72 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Edit Owners</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group block">
+    <div class="row m-t-10">
+      <div class="form-group col-sm-10 error-msg" *ngIf="errorForNoOwners">
+        <span class="col-sm-12">{{errorForNoOwners}}</span>
+      </div>
+      <div class="form-group col-sm-10">
+        <label class="col-sm-6 control-label">Charge Code: </label>
+        <div class="col-sm-6">
+          {{rowData?.charge_code}}
+        </div>
+      </div>
+      <div class="form-group col-sm-10">
+        <label class="col-sm-6 control-label">Time Period: </label>
+        <div class="col-sm-6">
+          {{rowData?.valid_from | date:'d MMM y'}} - {{rowData?.valid_to | date:'d MMM y'}}
+        </div>
+      </div>
+      <div class="form-group col-sm-10">
+        <label class="col-sm-6 control-label">Owners: </label>
+        <div class="col-sm-6">
+          <ss-multiselect-dropdown (onLazyLoad)="onSearch($event)" [settings]="mySettings" [name]="'userName'" [masterData]="configAllEmpData?.details" [options]="cloneListData" [texts]="myTexts" [(ngModel)]="employeeModel" (ngModelChange)="changeList($event)"></ss-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <label class="col-sm-6 control-label">Selected Owners List: </label>
+      </div>
+      <div class="col-xs-12">
+      <div class="col-xs-12">
+        <div class="zeropad">
+          <div class="div_names" style="height: auto; max-height: 200px; min-height: 40px; padding-right:10px; padding-bottom:10px; margin-left: 0">
+            <div *ngIf="employeeModel.length === 0" class="txt-align-c" style="line-height: 30px">-- No Owners Selected --</div>
+            <div *ngFor="let emp of employeeModel; let i = index;" class="block" [ngClass]="{'emp-error': emp.isError}">
+              <a (click)="removeSlUsers(i,employeeModel)" *ngIf="!emp.isDelete"><i class="fa fa-close" aria-hidden="true"></i></a>
+              <span class="name-col" tooltip="{{emp.userName}}" placement="left" container="body">{{ emp.userName }}</span>
+              <!--<ng-container *ngIf="emp.isOldOwner">-->
+                <!--<div class="pull-right" tooltip="Active / Inactive" placement="right" container="body">-->
+                  <!--<span class="swithc-btn v-align-m">-->
+                    <!--<label class="switch switch-success">-->
+                      <!--<input type="checkbox" [(ngModel)]="emp.isActive">-->
+                      <!--<span class="slider round"></span>-->
+                    <!--</label>-->
+                  <!--</span>-->
+                <!--</div>-->
+              <!--</ng-container>-->
+            </div>
+          </div>
+          <div class="emp-error" *ngIf="isHadInSponosrList.length > 0 " style="margin-left: 10%; padding-top: 15px; font-size: 12px">
+            <div style="padding-bottom: 10px">Admin roles users should not be added as a owner</div>
+            <ul>
+              <li *ngFor="let item of isHadInSponosrList">{{item.userName}}</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Close</button>
+  <button type="button" class="btn btn-success" [disabled]="employeeModel.length === 0 || isHadInSponosrList.length" (click)="addOwner()">Submit</button>
+</div>
+
+<div [ngBusy]="busy"></div>

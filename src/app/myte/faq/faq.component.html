@@ -1,0 +1,25 @@
+<div class="padding-t-30">
+<div class="col-sm-12 section-block faq-block">
+  <!--<div class="block">-->
+    <!--<button  (click)="backToHome()" class="btn btn-default btn-padd pull-right" type="button"> <i aria-hidden="true" class="fa fa-chevron-left"></i> Back</button>-->
+  <!--</div>-->
+  <div class="form-group" *ngFor="let faq of faqData">
+    <h4 (click)="expandCollapse(faq)" class="cursor-p" [ngClass]="{'active-title': faq.isCollapse}"> <span><i class="fa fa-chevron-right"></i></span>{{faq.categoryName}}</h4>
+    <div [@collapsed] = "faq.isCollapse">
+    <div class="media" *ngFor="let faqDetail of faq.faqSubDetails"  (click)="selectQuestion(faqDetail)" [ngClass]="{'active': isSelectedRow == faqDetail}">
+      <div class="media-left">
+        <a class="cursor-p faq-icon">
+          <i class="fa fa-question-circle"></i>
+        </a>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">{{faqDetail.question}}</h4>
+        <p>{{faqDetail.answer}}</p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</div>
+</div>
+<div [ngBusy]="busy"></div>

@@ -1,0 +1,32 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<!-- Header start-->
+<myte-header #headerNav></myte-header>
+<!-- Header end-->
+<div class="content-wrapper">
+  <div class="block site-nav">
+  <div class="col-sm-6"><span class="cursor-p" (click)="gotoHome()"><i class="fa fa-home"></i> Home</span></div>
+  <div class="col-sm-6">
+       <ul class="help-menus">
+         <!--<li><a href="mailto:myts@cigniti.com">Contact us</a></li>-->
+         <li *ngFor="let menu of siteMenus" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="{{menu.url}}">{{menu.name}}</a></li>
+         <li><a href="mailto:mytsfeedback@cigniti.com?subject=Charge Code Management Feedback {{empData.employeeName}}({{empData.employeeId}})">Feedback</a></li>
+       </ul>
+     </div>
+  </div>
+    <div class="container-fluid">
+        <router-outlet></router-outlet>
+    </div>
+    <div class="clear-block"></div>
+</div>
+<!-- Footer start-->
+<footer class="myte-footer footer"></footer>
+<!-- Footer end-->
+
+<confirm
+    title="{{confirmPopupData.title}}"
+    message="{{confirmPopupData.message}}"
+    confirmText="{{confirmPopupData.confirmText}}"
+    cancelText="{{confirmPopupData.cancelText}}"
+    type="{{confirmPopupData.type}}">
+</confirm>
+

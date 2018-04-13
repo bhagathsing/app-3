@@ -1,0 +1,127 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="block form-block-1">
+      <form class="form-horizontal" [formGroup]="createTaskForm" (ngSubmit)="onSubmit()" #TaskForm="ngForm" novalidate>
+      <div class="block">
+        <div class="block">
+          <div class="form-group col-sm-10" [ngClass]="{'has-error':formErrors.charge_code && TaskForm.submitted}">
+            <label class="col-sm-6 control-label" for="charge_code">Parent Charge Code:</label>
+            <div class="col-sm-6">
+              <!--<input type="text" class="form-control dd-meu1" id="charge_code" formControlName="charge_code"-->
+                     <!--[typeahead]="chargeCodesData"-->
+                     <!--[typeaheadMinLength]="0"-->
+                     <!--[typeaheadOptionsLimit]="50"-->
+                     <!--[typeaheadScrollable]="true"-->
+                     <!--[typeaheadOptionsInScrollableView]="7"-->
+                     <!--autocomplete="off">-->
+              <ng-select [allowClear]="true" id="charge_code" formControlName="charge_code"
+                         [active]="selectedChargeCodes"
+                         [items]="chargeCodesData"
+                         [disabled]="disabled"
+                         (selected)="selected($event)"
+                         (removed)="removed($event)"
+                         [textField]="'charge_code'"
+                         [idField]="'charge_code_id'"
+                         placeholder="Select">
+              </ng-select>
+              <small *ngIf="dateRange" style="font-style: italic; display: block; margin-bottom: -6px;">( {{dateRange}} )</small>
+              <span class="help-block" *ngIf="formErrors.charge_code && TaskForm.submitted">
+                  {{ formErrors.charge_code }}
+                </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-10" [ngClass]="{'has-error':formErrors.charge_code_task_code && TaskForm.submitted}">
+            <label for="charge_code_task_code" class="col-sm-6 control-label">Task Code: </label>
+            <div class="col-sm-6">
+              <div class="form-control m-b-10" disabled>
+                  <span class="none-edit">{{taskCode}}</span>
+                  <input type="hidden" class="form-control" id="charge_code_task_code" formControlName="charge_code_task_code" style="width:80px">
+              </div>
+              <ng-container *ngIf="!rowData">
+              <button class="btn btn-success" [disabled]="!createTaskForm.get('charge_code').valid || (generateTxt === 'Generated' && isChargeCodeSelected)" type="button" (click)="generateTaskCode()" tooltip="Click to Generate Task code" placement="left" container="body">Generate</button>
+                <span class="generate-lable" *ngIf="isGenerate" [ngClass]="{'generate-success':isGenerate, 'generate-danger': generateTxt === 'Failed'}">
+                  {{generateTxt}}
+                </span>
+              </ng-container>
+              <span class="help-block" *ngIf="formErrors.charge_code_task_code && TaskForm.submitted">
+                {{ formErrors.charge_code_task_code }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-10"   [ngClass]="{'has-error':formErrors.charge_code_task_validity && TaskForm.submitted}">
+            <label for="charge_code_task_validity" class="col-sm-6 control-label">Task Code Validity: </label>
+            <div class="col-sm-6" dropdown [isOpen]="status.isopen" (isOpenChange)="changeDatePick($event)" >
+                <!--<input type="text" class="form-control" id="charge_code_task_validity" formControlName="charge_code_task_validity">-->
+                <input type="text" id="charge_code_task_validity" autocomplete="off" (focus)="onFocusDate($event)" class="form-control" placeholder="Daterangepicker" formControlName="charge_code_task_validity"/>
+                <ul *dropdownMenu class="dropdown-menu padding-0 radios-0 dropdown-menu-right">
+                  <li (click)="stopClosing($event)">
+                    <app-date-pick [currentDateObj]="datePickObj" [dateObj]="datePickObjAll.timePeriodMasterBean" [isOpen]="isDatePickerOpen" [dateRange]="dateRange" (onChangeDate)="changeDate($event)"></app-date-pick>
+                  </li>
+                </ul>
+              <span class="help-block" *ngIf="formErrors.charge_code_task_validity && TaskForm.submitted">
+                {{ formErrors.charge_code_task_validity }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-10"   [ngClass]="{'has-error':formErrors.charge_code_task_desc && TaskForm.submitted}">
+              <label for="charge_code_task_desc" class="col-sm-6 control-label">Task Description:</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="charge_code_task_desc" formControlName="charge_code_task_desc" autocomplete="off">
+                <span class="help-block" *ngIf="formErrors.charge_code_task_desc && TaskForm.submitted">
+                  {{ formErrors.charge_code_task_desc }}
+                </span>
+              </div>
+          </div>
+          <div class="form-group col-sm-10" [ngClass]="{'has-error':formErrors.charge_code_task_status && TaskForm.submitted}">
+            <label for="inlineRadios_2_10" class="col-sm-6 control-label">Status:</label>
+            <div class="col-sm-6">
+              <div class="radio radio-primary radio-inline m-r-10" *ngFor="let states of statusBtn; let ind = index" >
+                <input type="radio" id="inlineRadios_2_1{{ind}}" formControlName="charge_code_task_status" [value]="states.value" name="charge_code_task_status">
+                <label for="inlineRadios_2_1{{ind}}"> {{states.name}}</label>
+              </div>
+              <span class="help-block" *ngIf="formErrors.charge_code_task_status && TaskForm.submitted">
+                  {{ formErrors.charge_code_task_status }}
+                </span>
+            </div>
+          </div>
+          <!-- <div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.region && assignMent.submitted}">
+            <label for="region" class="col-sm-6 control-label">Region:</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="region" formControlName="region">
+                  <option *ngFor="let reg of regions" [value]="reg.region_id" [selected]="region == reg.region_id">{{reg.region_name}}</option>
+              </select>
+              <span class="help-block" *ngIf="formErrors.region && assignMent.submitted">
+                {{ formErrors.region }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group col-sm-6"   [ngClass]="{'has-error':formErrors.divisions && assignMent.submitted}">
+            <label for="divisions" class="col-sm-6 control-label">Divisions:</label>
+            <div class="col-sm-6">
+              <select class="form-control" id="divisions" formControlName="divisions">
+                <option *ngFor="let divi of divisionsData" [value]="divi.division_id" [selected]="divisions == divi.division_id">{{divi.division_name}}</option>
+              </select>
+              <span class="help-block" *ngIf="formErrors.divisions && assignMent.submitted">
+                {{ formErrors.divisions }}
+              </span>
+            </div>
+          </div> -->
+        </div>
+          <div class="modal-footer">
+            <div class="col-sm-offset-6 col-sm-6">
+              <span class="pull-right" style="margin-right:15px">
+                <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+                <button type="submit" class="btn btn-success">Save</button>
+              </span>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+<div [ngBusy]="busy"></div>

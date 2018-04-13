@@ -1,0 +1,19 @@
+<div>
+        <div class="col-sm-12 section-block">
+            <div class="row m-t-15">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item {{tabMenu.active}}" *ngFor="let tabMenu of tabMenu" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                            <a class="nav-link" [routerLink]="tabMenu.url">{{tabMenu.menuName}}</a>
+                        </li>
+                    </ul>
+                  <a class="btn btn-primary" href="/assets/data/ccmTemplate.xlsx" style="position: absolute; right: 15px; top: 0px;">Download Template </a>
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px;position:relative">
+                <div class="tab-content">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+    </div>

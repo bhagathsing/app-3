@@ -1,0 +1,19 @@
+<div class="modal-wrapper" [ngStyle]="{display:_isShow ? 'block': 'none'}">
+  <div class="modal-box">
+    <div class="moda-box-header block">
+      <strong class="pull-left">{{title}}</strong>
+      <button class="close pull-right" type="button" (click)="closeModal()">
+        <span>×</span>
+      </button>
+    </div>
+    <div class="moda-box-body">
+      <p>{{msg}}</p>
+
+    </div>
+    <div class="moda-box-footer txt-align-r">
+      <button class="btn btn-default" (click)="onCancelClick($event)">No</button>
+      <button class="btn btn-primary" (click)="onConfirmClick($event)">Yes</button>
+    </div>
+
+  </div>
+</div>

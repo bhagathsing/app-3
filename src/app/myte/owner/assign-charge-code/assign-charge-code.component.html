@@ -1,0 +1,95 @@
+<div class="col-sm-12">
+    <div class="row padding-b-15">
+      <div class="col-xs-6 cursor-p" (click)="isCollapsed = !isCollapsed">
+        <span class="userTimereport">
+          <span [style.fontSize.px]="20"><i class="fa {{isCollapsed?'fa-plus':'fa-minus'}}" aria-hidden="true"></i></span>
+          <strong>Assign Charge Code</strong></span>
+      </div>
+      <div class="col-xs-6">
+        <div class="forRecord pull-right">
+          <button class="btn btn-default btn-padd" type="button" (click)="backToChargeCode()"> <i class="fa fa-chevron-left" aria-hidden="true"></i> Back</button>
+      </div>
+      </div>
+    </div>
+    <div class="block" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
+      <ul class="list-block list-block-col">
+        <li class="col-xs-4"><strong>Task Code: </strong> <span>{{selectedRow.charge_code_task_code}}</span></li>
+        <!--<li class="col-xs-4"><strong>Task Type : </strong> <span>{{selectedRow.charge_code_type}}</span></li>-->
+        <li class="col-xs-4"><strong>Task Description : </strong> <span>{{selectedRow.charge_code_task_desc}}</span></li>
+
+        <li class="col-xs-4"><strong>Task Code Validity Period : </strong> <span>{{selectedRow.charge_code_task_validfrom | date:'d MMM y'}} - {{selectedRow.charge_code_task_validto | date:'d MMM y'}}</span></li>
+        <li class="col-xs-4"><strong>Charge Code : </strong> <span>{{selectedRow.charge_code}}</span></li>
+        <li class="col-xs-4"><strong>Charge Code Description : </strong> <span>{{selectedRow.charge_code_description}}</span></li>
+        <li class="col-xs-4"><strong>Charege Code Validity Period : </strong> <span>{{selectedRow.valid_from | date:'d MMM y'}} - {{selectedRow.valid_to | date:'d MMM y'}}</span></li>
+        <li class="col-xs-4"><strong>Charge Code Owner : </strong>
+          <span>{{stringToJson(selectedRow.charge_code_owner)[0].userName}}</span>
+          <a *ngIf="stringToJson(selectedRow.charge_code_owner).length > 1 " [popover]="ownersList" placement="top"
+             [outsideClick]="true" popoverTitle="Owners" container="body" class="links">...More</a>
+          <ng-template #ownersList>
+            <ul>
+              <li *ngFor="let o of stringToJson(selectedRow.charge_code_owner)"><strong>{{o.userId}}</strong> - {{o.userName}}</li>
+            </ul>
+          </ng-template>
+        </li>
+        <li class="col-xs-4"><strong>Sponsor : </strong> <span>{{selectedRow.sponsor}}</span></li>
+        <li class="col-xs-4"><strong>Task Code Status : </strong> <strong [style.color]="selectedRow.charge_code_task_status === 'Active' ? 'green': 'red'">{{selectedRow.charge_code_task_status}}</strong></li>
+      </ul>
+    </div>
+    <div class="block pull-right" style="margin-bottom: -34px; position:relative; z-index: 2">
+        <div class="forRecord">
+          <!-- <button class="btn btn-primary btn-padd" type="button"> <i class="fa fa-pencil" aria-hidden="true"></i> Edit</button> -->
+          <button class="btn btn-success btn-padd" type="button" (click)="assignChargeCode()"> <i class="fa fa-plus" aria-hidden="true"></i> Add User</button>
+      </div>
+    </div>
+    <div class="block grid-table1">
+     <table class="table table-bordered table-inverse table-time" style="margin:0" id="tableGrid">
+        <thead>
+            <tr style="color:white; background: #005c97;">
+                <!-- <th width="30" height="{{headerRowHeight}}"></th> -->
+                <th width="{{header.width}}" height="{{headerRowHeight}}" *ngFor="let header of gridHeaders">{{header.name}}
+                </th>
+                <th width="60" height="{{headerRowHeight}}">Action</th>
+              </tr>
+          </thead>
+      <tbody>
+        <tr *ngFor="let grid of gridData?.details; let ind = index" >
+            <!-- <td  width="30" height="{{bodyRowHeight}}">
+                <div class="checkbox checkbox-primary" style="margin:0px; width:20px">
+                  <input type="checkbox">
+                  <label></label>
+                </div>
+              </td> -->
+          <td *ngFor="let h of gridHeaders" height="{{bodyRowHeight}}">
+            <ng-container *ngIf="h.field !== 'time_period_name'">
+              <span>{{grid[h.field]}}</span>
+            </ng-container>
+            <ng-container *ngIf="h.field == 'time_period_name'">
+              <span><a class="links" (click)="onValidityDetails(grid)">{{grid.user_charge_code_map_validFrom | date: 'd MMM y'}} - {{grid.user_charge_code_map_validTo | date: 'd MMM y'}}</a></span>
+            </ng-container>
+          </td>
+          <td width="30" height="{{bodyRowHeight}}">
+            <button type="button" class="btn btn-default btn-padd" (click)="assignChargeCode(grid)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+             <!--<button type="button" class="btn btn-default btn-padd"><i class="fa fa-trash" aria-hidden="true"></i></button> -->
+            <!--<span class="swithc-btn v-align-m">-->
+                <!--<label class="switch">-->
+                  <!--<input type="checkbox">-->
+                  <!--<span class="slider round"></span>-->
+                <!--</label>-->
+              <!--</span>-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div [ngBusy]="busy"></div>
+
+  <confirm
+    title="{{confirmPopupData.title}}"
+    message="{{confirmPopupData.message}}"
+    confirmText="{{confirmPopupData.confirmText}}"
+    cancelText="{{confirmPopupData.cancelText}}"
+    type="{{confirmPopupData.type}}"
+    isCheckBox="{{confirmPopupData.isCheckBox}}"
+    disclaimerText="{{confirmPopupData.disclaimerText}}">
+</confirm>

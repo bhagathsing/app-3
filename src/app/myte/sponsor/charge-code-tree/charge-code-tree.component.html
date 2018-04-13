@@ -1,0 +1,9 @@
+<div class="col-sm-12">
+  <div class="block padding-tb-10">
+    <span class="cursor-p" (click)="expandCollapse()"><i class="fa" [ngClass]="{'fa-plus': !isExpand, 'fa-minus': isExpand}"></i> {{!isExpand ? 'Expand' : 'Collapse' }} All</span>
+  </div>
+  <div class="block">
+    <tree-root #tree [state]="state" [options]="options" [focused]="true" [nodes]="nodes"></tree-root>
+  </div>
+
+</div>
